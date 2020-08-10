@@ -19,19 +19,19 @@ class TCPManager(Thread):
 
 
     def start_colecting_data(self):
-        #make connection
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-
-        server_address = (self.sensor_ip_adress, 23)
-        print('connecting to {} port {}'.format(*server_address))
-        s.connect(server_address)
         while True:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+
+            server_address = (self.sensor_ip_adress, 23)
+            # print('connecting to {} port {}'.format(*server_address))
+            s.connect(server_address)
+
             data = s.recv(16)
 
             dust_value=float(data.decode("utf-8"))
             self.databaseManager.add_record(dust_value,int(round(time.time() * 1000)))
-            # time.sleep(2)
+            time.sleep(30)
 
 # Look for the response
 

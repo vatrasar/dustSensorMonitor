@@ -39,7 +39,7 @@ class MyDataBaseManager:
             conn = None
             try:
                 conn = sqlite3.connect(self.path_to_db)
-                print(sqlite3.version)
+                print("sql version:"+sqlite3.version)
 
                 c = conn.cursor()
                 c.execute(create_table_sql)
@@ -59,7 +59,7 @@ class MyDataBaseManager:
             conn = None
             try:
                 conn = sqlite3.connect(self.path_to_db)
-                print(sqlite3.version)
+
 
                 cur = conn.cursor()
                 cur.execute("SELECT * FROM dust_values")
@@ -73,3 +73,46 @@ class MyDataBaseManager:
 
         except sqlite3.Error as e:
             print(e)
+
+    def get_records(self,sql_query):
+
+        try:
+            conn = None
+            try:
+                conn = sqlite3.connect(self.path_to_db)
+
+
+                cur = conn.cursor()
+                cur.execute(sql_query)
+                rows = cur.fetchall()
+                return rows
+            except sqlite3.Error as e:
+                print(e)
+            finally:
+                if conn:
+                    conn.close()
+
+        except sqlite3.Error as e:
+            print(e)
+
+    def get_dust_for_range(self, start_time, end_time):
+        try:
+            conn = None
+            try:
+                conn = sqlite3.connect(self.path_to_db)
+
+
+                cur = conn.cursor()
+                cur.execute("SELECT dust_density_value FROM dust_values WHERE test_date BETWEEN ? AND ?;",(start_time,end_time))
+                rows = cur.fetchall()
+                rows=list(map(lambda x:x[0],rows))
+                return rows
+            except sqlite3.Error as e:
+                print(e)
+            finally:
+                if conn:
+                    conn.close()
+
+        except sqlite3.Error as e:
+            print(e)
+        return ()
