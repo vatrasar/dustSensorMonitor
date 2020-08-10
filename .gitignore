@@ -1,0 +1,12 @@
+.idea
+__pycache__
+venv
+images
+results
+drugi.tif
+pierwszy.tif
+test1.tif
+test2.tif
+test3.tif
+result.tif
+*.db
