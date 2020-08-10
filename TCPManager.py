@@ -1,10 +1,16 @@
 import socket
 import time
+from threading import Thread
 
 from MyDataBaseManager import MyDataBaseManager
 
 
-class TCPManager():
+class TCPManager(Thread):
+
+
+    def run(self) -> None:
+        super().run()
+        self.start_colecting_data()
 
     def __init__(self,sensor_ip_adress,databaseManager:MyDataBaseManager) -> None:
         super().__init__()
@@ -15,15 +21,16 @@ class TCPManager():
     def start_colecting_data(self):
         #make connection
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        amount_received = 0
-        amount_expected = len("test")
+
+
         server_address = (self.sensor_ip_adress, 23)
         print('connecting to {} port {}'.format(*server_address))
         s.connect(server_address)
         while True:
             data = s.recv(16)
-            amount_received += len(data)
-            print(data.decode("utf-8"))
+
+            dust_value=float(data.decode("utf-8"))
+            self.databaseManager.add_record(dust_value,int(round(time.time() * 1000)))
             # time.sleep(2)
 
 # Look for the response
