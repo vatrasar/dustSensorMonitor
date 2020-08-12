@@ -13,3 +13,6 @@ result.tif
 dust.db-journal
 result.svg
 lastIp.txt
+build
+dist
+*.spec
