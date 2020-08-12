@@ -18,6 +18,7 @@ class Controller:
     def __init__(self,mainWindow:Ui_MainWindow,dbManager:MyDataBaseManager,tcpManager:TCPManager) -> None:
         super().__init__()
         mainWindow.btnHoursGraph.clicked.connect(self.showHoursGraph)
+        mainWindow.btnDayGraph.clicked.connect(self.day_graph)
         mainWindow.progressBar.setVisible(False)
         self.dbManager=dbManager
         self.mainWindow=mainWindow
@@ -25,6 +26,48 @@ class Controller:
         tcpManager.update_progress_signal.connect(self.update_progress)
         tcpManager.ip_search_end_signal.connect(self.hide_progress)
         self.number_of_days=1
+
+    def day_graph(self):
+        window = QDialog()
+        ui_settings = Ui_Dialog()
+        ui_settings.setupUi(window)
+        if (window.exec_()):
+            self.number_of_days = ui_settings.spinNumberOfDays.value()
+
+        now = datetime.now()
+        today = datetime(now.year, now.month, now.day, 0, 0, 0, 0)
+        daysList = []
+
+        for day_index in range(0, self.number_of_days):
+
+            nextDay = today + timedelta(days=1)
+            records = self.dbManager.get_dust_for_range(int(round(today.timestamp() * 1000)),
+                                                            int(round(nextDay.timestamp() * 1000)))
+
+            averageForDay = Utils.averageFromList(records)
+            daysList.append(averageForDay)
+            today = today - timedelta(days=1)
+
+
+        plt.close()
+
+        #creating labels
+        days_labels=[]
+        for day_index,_ in enumerate(daysList):
+            days_labels.append(str(-day_index))
+
+
+
+
+
+        plt.bar(days_labels, daysList, color='maroon',
+                width=0.4)
+
+        plt.tight_layout()
+
+        plt.savefig('result.svg')
+
+        self.mainWindow.graphView.setPixmap(QPixmap("result.svg"))
 
     def hide_progress(self):
         self.mainWindow.progressBar.setVisible(False)
@@ -65,6 +108,7 @@ class Controller:
             today = today - timedelta(days=2)
 
         legendList=[]
+        plt.close()
         for index,day in enumerate(daysList):
             plt.plot(day)
             legendList.append("dzisiaj - "+str(index))

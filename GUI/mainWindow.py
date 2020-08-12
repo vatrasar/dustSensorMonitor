@@ -39,6 +39,9 @@ class Ui_MainWindow(object):
         self.btnHoursGraph = QtWidgets.QPushButton(self.groupBox_2)
         self.btnHoursGraph.setObjectName("btnHoursGraph")
         self.verticalLayout_3.addWidget(self.btnHoursGraph)
+        self.btnDayGraph = QtWidgets.QPushButton(self.groupBox_2)
+        self.btnDayGraph.setObjectName("btnDayGraph")
+        self.verticalLayout_3.addWidget(self.btnDayGraph)
         self.verticalLayout_4.addWidget(self.groupBox_2)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_4.addItem(spacerItem)
@@ -72,6 +75,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Monitor zanieczysczeń"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Wykresy"))
         self.btnHoursGraph.setText(_translate("MainWindow", "Wykresy godzinowy"))
+        self.btnDayGraph.setText(_translate("MainWindow", "Wykres  dzienny"))
         self.groupBox.setTitle(_translate("MainWindow", "Informacje"))
         self.labInfo.setText(_translate("MainWindow", "Łączenie z czujnikiem"))
 
