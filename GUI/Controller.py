@@ -8,13 +8,31 @@ from GUI.mainWindow import Ui_MainWindow
 from MyDataBaseManager import MyDataBaseManager
 import matplotlib.pyplot as plt
 
+from TCPManager import TCPManager
+
+
 class Controller:
 
-    def __init__(self,mainWindow:Ui_MainWindow,dbManager:MyDataBaseManager) -> None:
+    def __init__(self,mainWindow:Ui_MainWindow,dbManager:MyDataBaseManager,tcpManager:TCPManager) -> None:
         super().__init__()
         mainWindow.btnHoursGraph.clicked.connect(self.showHoursGraph)
+        mainWindow.progressBar.setVisible(False)
         self.dbManager=dbManager
         self.mainWindow=mainWindow
+        tcpManager.lab_info_signal.connect(self.update_lab_info)
+        tcpManager.update_progress_signal.connect(self.update_progress)
+        tcpManager.ip_search_end_signal.connect(self.hide_progress)
+
+    def hide_progress(self):
+        self.mainWindow.progressBar.setVisible(False)
+
+    def update_progress(self,progress:float):
+        if not(self.mainWindow.progressBar.isVisible()):
+            self.mainWindow.progressBar.setVisible(True)
+        self.mainWindow.progressBar.setValue(int(progress))
+
+    def update_lab_info(self,new_info:str):
+        self.mainWindow.labInfo.setText(new_info)
 
     def showHoursGraph(self):
         now=datetime.now()

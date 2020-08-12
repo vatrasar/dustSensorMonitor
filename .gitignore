@@ -12,3 +12,4 @@ result.tif
 *.db
 dust.db-journal
 result.svg
+lastIp.txt
