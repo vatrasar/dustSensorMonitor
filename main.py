@@ -8,9 +8,10 @@ from GUI.mainWindow import Ui_MainWindow
 from MyDataBaseManager import MyDataBaseManager
 from TCPManager import TCPManager
 
+
 if __name__ == '__main__':
     dbManager=MyDataBaseManager("./dust.db")
-    tcpManager=TCPManager('192.168.0.',dbManager)
+    tcpManager=TCPManager(dbManager)
 
 
     app = QApplication(sys.argv)

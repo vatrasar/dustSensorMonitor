@@ -43,6 +43,9 @@ class Ui_MainWindow(object):
         self.btnDayGraph.setObjectName("btnDayGraph")
         self.verticalLayout_3.addWidget(self.btnDayGraph)
         self.verticalLayout_4.addWidget(self.groupBox_2)
+        self.btnSettings = QtWidgets.QPushButton(self.dockWidgetContents_2)
+        self.btnSettings.setObjectName("btnSettings")
+        self.verticalLayout_4.addWidget(self.btnSettings)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_4.addItem(spacerItem)
         self.groupBox = QtWidgets.QGroupBox(self.dockWidgetContents_2)
@@ -76,6 +79,7 @@ class Ui_MainWindow(object):
         self.groupBox_2.setTitle(_translate("MainWindow", "Wykresy"))
         self.btnHoursGraph.setText(_translate("MainWindow", "Wykresy godzinowy"))
         self.btnDayGraph.setText(_translate("MainWindow", "Wykres  dzienny"))
+        self.btnSettings.setText(_translate("MainWindow", "Ustawienia"))
         self.groupBox.setTitle(_translate("MainWindow", "Informacje"))
         self.labInfo.setText(_translate("MainWindow", "Łączenie z czujnikiem"))
 

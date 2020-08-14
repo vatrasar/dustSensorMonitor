@@ -5,6 +5,7 @@ from threading import Thread
 
 from PyQt5.QtCore import QThread, pyqtSignal
 
+import Utils
 from MyDataBaseManager import MyDataBaseManager
 
 
@@ -15,12 +16,19 @@ class TCPManager(QThread):
     def run(self) -> None:
         self.start_colecting_data()
 
-    def __init__(self,sensor_network_adress,databaseManager:MyDataBaseManager) -> None:
+    def __init__(self,databaseManager:MyDataBaseManager) -> None:
         super().__init__()
-        self.sensor_network_adress=sensor_network_adress
+        local_addres = self.get_local_adress()
+        self.sensor_network_adress=local_addres
         self.sensor_ip_adress=self.get_last_sensor_ip()
         self.databaseManager=databaseManager
 
+    def get_local_adress(self):
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_addres = s.getsockname()[0]
+        local_addres = Utils.cat_last_part_of_ip_addres(local_addres)
+        return local_addres
 
     def start_colecting_data(self):
         while True:
